@@ -26,10 +26,39 @@ namespace TodoApp.Api.Controllers
             return db.Todo;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("/todo/{id}")]
         public Todo Get(int id)
         {
             return db.Todo.FirstOrDefault(r => r.Id == id);
+        }
+
+        [HttpPost("/todo/create")]
+        public void Create(Todo todo)
+        {
+            db.Todo.Add(todo);
+            db.SaveChanges();
+        }
+
+        [HttpPost("/todo/{id}/check")]
+        public void Check(int id)
+        {
+            Todo todo = Get(id);
+            if (todo != null)
+            {
+                todo.IsDone = !todo.IsDone;
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPost("/todo/{id}/delete")]
+        public void Delete(int id)
+        {
+            Todo todo = Get(id);
+            if (todo != null)
+            {
+                db.Todo.Remove(todo);
+                db.SaveChanges();
+            }
         }
     }
 }
