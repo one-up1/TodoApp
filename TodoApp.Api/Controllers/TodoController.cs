@@ -26,6 +26,7 @@ namespace TodoApp.Api.Controllers
             return db.Todo;
         }
 
+        [HttpGet]
         public Todo Get(int id)
         {
             return db.Todo.FirstOrDefault(r => r.Id == id);
