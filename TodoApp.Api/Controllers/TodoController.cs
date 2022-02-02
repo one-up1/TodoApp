@@ -20,13 +20,13 @@ namespace TodoApp.Api.Controllers
             db = todoDbContext;
         }
 
-        [HttpGet]
+        [HttpGet("/todos")]
         public IEnumerable<Todo> Get()
         {
             return db.Todo;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public Todo Get(int id)
         {
             return db.Todo.FirstOrDefault(r => r.Id == id);
