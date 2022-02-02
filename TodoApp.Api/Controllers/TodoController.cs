@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 using TodoApp.Data;
 
 namespace TodoApp.Api.Controllers
@@ -9,11 +10,6 @@ namespace TodoApp.Api.Controllers
     [Route("[controller]")]
     public class TodoController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "0Freezing", "1Bracing", "2Chilly", "3Cool", "4Mild", "5Warm", "6Balmy", "7Hot", "8Sweltering", "9Scorching"
-        };
-
         private readonly ILogger<TodoController> _logger;
         private readonly TodoDbContext db;
 
@@ -27,15 +23,12 @@ namespace TodoApp.Api.Controllers
         [HttpGet]
         public IEnumerable<Todo> Get()
         {
-            /*var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();*/
             return db.Todo;
+        }
+
+        public Todo Get(int id)
+        {
+            return db.Todo.FirstOrDefault(r => r.Id == id);
         }
     }
 }
