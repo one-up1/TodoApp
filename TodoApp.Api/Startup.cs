@@ -1,17 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TodoApp.Data;
 using TodoApp.Data.Interfaces;
 
@@ -36,7 +29,10 @@ namespace TodoApp.Api
             });
 
             services.AddScoped<ITodoService, TodoService>();
-            services.AddDbContext<TodoDbContext>(options => options.UseSqlServer(Configuration.GetSection("Settings")["ConnectionString"]));
+            services.AddScoped<ITodoRepository, TodoRepository>();
+            //services.AddScoped(typeof(ITodoRepository), typeof(TodoRepository));
+            services.AddDbContext<TodoRepository>(options => options.UseSqlServer(
+                Configuration.GetSection("Settings")["ConnectionString"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

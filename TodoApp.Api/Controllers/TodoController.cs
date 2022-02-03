@@ -23,31 +23,31 @@ namespace TodoApp.Api.Controllers
         [HttpGet("/todos")]
         public IEnumerable<Todo> Get()
         {
-            return service.GetTodos();
+            return service.Get();
         }
 
         [HttpGet("/todo/{id}")]
         public Todo Get(int id)
         {
-            return service.GetTodo(id);
+            return service.Get(id);
         }
 
         [HttpPost("/todo/create")]
         public void Create(Todo todo)
         {
-            service.AddTodo(todo);
+            service.Create(todo);
         }
 
         [HttpPost("/todo/{id}/check")]
         public void Check(int id)
         {
-            service.CheckTodo(id);
+            service.Check(id);
         }
 
         [HttpPost("/todo/{id}/delete")]
         public void Delete(int id)
         {
-            service.DeleteTodo(id);
+            service.Delete(id);
         }
     }
 }
