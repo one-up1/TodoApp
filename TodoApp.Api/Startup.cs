@@ -30,7 +30,7 @@ namespace TodoApp.Api
 
             services.AddScoped<ITodoService, TodoService>();
             services.AddScoped<ITodoRepository, TodoRepository>();
-            //services.AddScoped(typeof(ITodoRepository), typeof(TodoRepository));
+            //services.AddSingleton(typeof(ITodoRepository), typeof(TodoRepository));
             services.AddDbContext<TodoRepository>(options => options.UseSqlServer(
                 Configuration.GetSection("Settings")["ConnectionString"]));
         }
