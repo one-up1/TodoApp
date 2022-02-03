@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TodoApp.Data;
+using TodoApp.Data.Interfaces;
 
 namespace TodoApp.Api
 {
@@ -34,6 +35,7 @@ namespace TodoApp.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TodoApp.Api", Version = "v1" });
             });
 
+            services.AddScoped<ITodoService, TodoService>();
             services.AddDbContext<TodoDbContext>(options => options.UseSqlServer(Configuration.GetSection("Settings")["ConnectionString"]));
         }
 

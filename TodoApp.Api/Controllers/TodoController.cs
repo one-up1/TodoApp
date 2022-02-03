@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 using TodoApp.Data;
+using TodoApp.Data.Interfaces;
 
 namespace TodoApp.Api.Controllers
 {
@@ -11,54 +11,43 @@ namespace TodoApp.Api.Controllers
     public class TodoController : ControllerBase
     {
         private readonly ILogger<TodoController> _logger;
-        private readonly TodoDbContext db;
+        private readonly ITodoService service;
 
-        public TodoController(ILogger<TodoController> logger,
-            TodoDbContext todoDbContext)
+        public TodoController(ILogger<TodoController> logger, ITodoService service)
         {
             _logger = logger;
-            db = todoDbContext;
+
+            this.service = service;
         }
 
         [HttpGet("/todos")]
         public IEnumerable<Todo> Get()
         {
-            return db.Todo;
+            return service.GetTodos();
         }
 
         [HttpGet("/todo/{id}")]
         public Todo Get(int id)
         {
-            return db.Todo.FirstOrDefault(r => r.Id == id);
+            return service.GetTodo(id);
         }
 
         [HttpPost("/todo/create")]
         public void Create(Todo todo)
         {
-            db.Todo.Add(todo);
-            db.SaveChanges();
+            service.AddTodo(todo);
         }
 
         [HttpPost("/todo/{id}/check")]
         public void Check(int id)
         {
-            Todo todo = Get(id);
-            if (todo != null)
-            {
-                todo.IsDone = !todo.IsDone;
-                db.SaveChanges();
-            }
+            service.CheckTodo(id);
         }
 
         [HttpPost("/todo/{id}/delete")]
         public void Delete(int id)
         {
-            Todo todo = Get(id);
-            if (todo != null)
-            {
-                db.Todo.Remove(todo);
-                db.SaveChanges();
-            }
+            service.DeleteTodo(id);
         }
     }
 }
