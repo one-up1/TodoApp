@@ -8,7 +8,7 @@ services:
       SA_PASSWORD: M@EtNGy7
       MSSQL_PID: Express
     image: mcr.microsoft.com/mssql/server:2019-latest
-  weather:
+  todo:
     ports:
       - "80:80"
     build:
